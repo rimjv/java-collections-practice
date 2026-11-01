@@ -14,62 +14,78 @@ public class MapPractise {
         }
         return new ArrayList<>(duplicates);
     }
-static List<Integer> findDuplicatesBruteForce(int [] array1)
-{
-    List<Integer> resultList = new ArrayList<>() ;
-    for (int i =0 ;i< array1.length;i++)
-    {
-        for(int j = i+1 ;j< array1.length;j++)
-        {
-            if (array1[i] == array1[j] && !resultList.contains(array1[i]))
-            {
-                resultList.add(array1[i]) ;
+
+    static List<Integer> findDuplicatesBruteForce(int[] array1) {
+        List<Integer> resultList = new ArrayList<>();
+        for (int i = 0; i < array1.length; i++) {
+            for (int j = i + 1; j < array1.length; j++) {
+                if (array1[i] == array1[j] && !resultList.contains(array1[i])) {
+                    resultList.add(array1[i]);
+                }
             }
         }
+        return resultList;
     }
-return resultList ;
-}
 
-static int firstRepeated(int [] nums){
-    List<Integer> resultList = new ArrayList<>() ;
-    resultList = findDuplicatesBruteForce(nums);
-    return resultList.get(0);
+    static int firstRepeated(int[] nums) {
+        List<Integer> resultList = new ArrayList<>();
+        resultList = findDuplicatesBruteForce(nums);
+        return resultList.get(0);
 
-}
+    }
 
 
-static ArrayList
-        <List<String>> groupAnagram(String [] str){
+    static ArrayList
+            <List<String>> groupAnagram(String[] str) {
 
-    Map<String, List<String>> map = new HashMap<>();   // step 1
+        Map<String, List<String>> map = new HashMap<>();   // step 1
 
-    for(String ch : str){
-            char [] str1 = ch.toCharArray();
-           Arrays.sort(str1);
-           String key = new String(str1) ;
+        for (String ch : str) {
+            char[] str1 = ch.toCharArray();
+            Arrays.sort(str1);
+            String key = new String(str1);
             if (!map.containsKey(key)) {
                 map.put(key, new ArrayList<>());
             }
             map.get(key).add(ch);
         }
-    return new ArrayList<>(map.values()) ;
-}
+        return new ArrayList<>(map.values());
+    }
 
-static String keyWithMaxValue(Map <String,Integer> map){
-            return map.entrySet().stream()
-                    .max(Map.Entry.comparingByValue())
-                    .map(Map.Entry::getKey)
-                    .orElse(null);
-}
+    static String keyWithMaxValue(Map<String, Integer> map) {
+        return map.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(null);
+    }
+
+
+    static Map<String, Integer> mergeMaps(Map<String, Integer> map1, Map<String, Integer> map2) {
+        Map<String, Integer> resultMap = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : map2.entrySet()) {
+            resultMap.put(entry.getKey(), resultMap.getOrDefault(entry.getKey(), 0) + entry.getValue());
+        }
+        return resultMap;
+    }
+
+
+
+
     public static void main(String[] args) {
+
+
+
         Map<String, Integer> scores = Map.of("a", 3, "b", 9, "c", 5);
-        System.out.println("key with max values"+keyWithMaxValue(scores));
+        System.out.println("key with max values" + keyWithMaxValue(scores));
+        System.out.println("10: " + mergeMaps(Map.of("a", 1, "b", 2), Map.of("b", 3, "c", 4)));  // a=1, b=5, c=4
+        System.out.println("10: " + mergeMaps(Map.of("x", 5), Map.of()));                         // {x=5}
+        System.out.println("10: " + mergeMaps(Map.of(), Map.of()));                               // {}
         System.out.println(
-                "Returning Duplicates" + findDuplicatesBruteForce(new int[] {1, 3, 11, 3, 1, 3, 2, 4, 2}));
+                "Returning Duplicates" + findDuplicatesBruteForce(new int[]{1, 3, 11, 3, 1, 3, 2, 4, 2}));
         System.out.println(
-                "Returning First Repeated" + firstRepeated(new int[] {1, 3, 11, 3, 1, 3, 2, 4, 2}));
+                "Returning First Repeated" + firstRepeated(new int[]{1, 3, 11, 3, 1, 3, 2, 4, 2}));
         System.out.println(
-                "Group Anagrams" + groupAnagram(new String[] {"eat", "tea", "tan", "ate", "nat", "bat"}));
+                "Group Anagrams" + groupAnagram(new String[]{"eat", "tea", "tan", "ate", "nat", "bat"}));
 
     }
 }
